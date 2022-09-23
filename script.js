@@ -6,20 +6,16 @@ const Gameboard = (function () {
   const player2 = {
     symbol: "o",
   };
-  let curRound = 1;
-  let curPlayer;
-  return { gameboard, player1, player2, curRound, curPlayer };
+  return { gameboard, player1, player2 };
 })();
+
 const DisplayController = (function () {
   const squareDiv = document.createElement("div");
+  10;
   squareDiv.classList.add("gameboard-div");
 
   const displaySymbols = function () {
-    console.log(Gameboard.gameboard[0]);
-    console.log(Gameboard.gameboard);
-    console.log("it comes");
     Gameboard.gameboard.forEach((element, index) => {
-      console.log(element);
       if (element === "x") {
         document.querySelectorAll(`[data-square-number]`)[index].textContent =
           "X";
@@ -36,25 +32,94 @@ const DisplayController = (function () {
   return { displaySymbols, displayDraw, displayWin, displayNewTurn };
 })();
 
-document.addEventListener("click", function (e) {
-  const target = e.target;
-  if (target.classList.contains("gameboard-square")) {
-    gameFlow(target);
-  }
-});
+const GameController = (function () {
+  const determineFirst = function () {
+    return;
+  };
+  const setSquareSymbol = function (target) {
+    if (Gameboard.gameboard[target.dataset.squareNumber] === undefined) {
+      Gameboard.gameboard[target.dataset.squareNumber] =
+        Gameboard.curPlayer.symbol;
+    }
+  };
+  const exchangeSymbol = function () {
+    //some code
+  };
 
-const gameFlow = function (target) {
-  if (Gameboard.curRound % 2 === 0) {
-    Gameboard.curPlayer = Gameboard.player2;
-  } else {
-    Gameboard.curPlayer = Gameboard.player1;
-  }
-  Gameboard.gameboard[target.dataset.squareNumber] = Gameboard.curPlayer.symbol;
+  const checkHorizontal = function (board) {
+    const _board = board;
+    for (let i = 0; i < 3; i++) {
+      const _arr = [];
+      for (let j = i * 3; j < i * 3 + 3; j++) {
+        _arr.push(_board[j]);
+      }
+      if (_arr.every((el) => el === _arr[0])) {
+        return true;
+      }
+    }
+    return false;
+  };
 
-  DisplayController.displaySymbols();
-  Gameboard.curRound++;
-  console.log("after " + Gameboard.curRound);
-};
+  const checkVertical = function (board) {
+    const _board = board;
+    for (let i = 0; i < 3; i++) {
+      const _arr = [];
+      // for (let j = i; j < i + 6; j + 3) {
+      for (let j = i; j < i + 7; j += 3) {
+        _arr.push(_board[j]);
+      }
+      console.log(_arr);
+      if (_arr.every((el) => el === _arr[0])) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const checkInverseDiagonal = function (board) {
+    const _board = board;
+    const _arr = [];
+    for (let i = 2; i < 7; i += 2) {
+      _arr.push(_board[i]);
+    }
+    if (_arr.every((el) => el === _arr[0])) {
+      return true;
+    }
+    return false;
+  };
+
+  const checkDiagonal = function (board) {
+    const _board = board;
+    const _arr = [];
+    for (let i = 0; i < 9; i += 4) {
+      _arr.push(_board[i]);
+    }
+    if (_arr.every((el) => el === _arr[0])) {
+      return true;
+    }
+    return false;
+  };
+
+  const checkForWin = function () {};
+  document.addEventListener("click", function (e) {
+    const target = e.target;
+    if (target.classList.contains("gameboard-square")) {
+      setSquareSymbol(target);
+    }
+  });
+  return {
+    curRound,
+    curPlayer,
+    playerOnTurn: determineFirst,
+    setSquareSymbol,
+    exchangeSymbol,
+    checkForWin,
+    checkHorizontal,
+    checkVertical,
+    checkDiagonal,
+    checkInverseDiagonal,
+  };
+})();
 
 //before AI useless
 /* const shapeChoice = function () {
