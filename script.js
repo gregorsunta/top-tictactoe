@@ -16,13 +16,18 @@ const DisplayController = (function () {
 
   const displaySymbols = function () {
     Gameboard.gameboard.forEach((element, index) => {
-      if (element === "x") {
+      if (element !== undefined) {
+        document.querySelectorAll(`[data-square-number]`)[index].textContent =
+          element;
+      }
+
+      /*       if (element === "x") {
         document.querySelectorAll(`[data-square-number]`)[index].textContent =
           "X";
       } else if (element === "o") {
         document.querySelectorAll(`[data-square-number]`)[index].textContent =
           "O";
-      }
+      } */
     });
   };
   const displayWin = function (curPlayer) {};
@@ -34,12 +39,33 @@ const DisplayController = (function () {
 
 const GameController = (function () {
   const determineFirst = function () {
-    return;
+    let curPlayer = Gameboard.player1;
   };
-  const setSquareSymbol = function (target) {
-    if (Gameboard.gameboard[target.dataset.squareNumber] === undefined) {
-      Gameboard.gameboard[target.dataset.squareNumber] =
-        Gameboard.curPlayer.symbol;
+
+  document.addEventListener("click", function (e) {
+    const _target = e.target;
+    const _curPlayer = curPlayer;
+    const _board = Gameboard.gameboard;
+    if (
+      _target.classList.contains("gameboard-square") &&
+      _target.textContent === ""
+    ) {
+      GameController.onTurn();
+    }
+  });
+
+  const changeTurn = function () {
+    if (curPlayer === Gameboard.player1) {
+      curPlayer = Gameboard.player2;
+    } else if (curPlayer === Gameboard.player2) {
+      curPlayer = Gameboard.player1;
+    } else {
+      console.log("There is a problem at changeTurn!");
+    }
+  };
+  const setSquareSymbol = function (board, curPlayer, target) {
+    if (board[target.dataset.squareNumber] === undefined) {
+      board[target.dataset.squareNumber] = curPlayer.symbol;
     }
   };
   const exchangeSymbol = function () {
@@ -100,17 +126,32 @@ const GameController = (function () {
     return false;
   };
 
-  const checkForWin = function () {};
-  document.addEventListener("click", function (e) {
-    const target = e.target;
-    if (target.classList.contains("gameboard-square")) {
-      setSquareSymbol(target);
+  const checkForWin = function (board) {
+    if (
+      checkDiagonal(board) ||
+      checkHorizontal(board) ||
+      checkVertical(board) ||
+      checkInverseDiagonal(board)
+    ) {
+      return true;
+    } else {
+      return false;
     }
-  });
+  };
+
+  const onTurn = function () {
+    setSquareSymbol(_board, _curPlayer, _target);
+    DisplayController.displaySymbols();
+    if (checkForWin()) {
+      DisplayController.displayWin();
+    } else {
+      GameController.changeTurn();
+    }
+  };
+
   return {
-    curRound,
+    changeTurn,
     curPlayer,
-    playerOnTurn: determineFirst,
     setSquareSymbol,
     exchangeSymbol,
     checkForWin,
