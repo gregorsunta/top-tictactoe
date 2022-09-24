@@ -30,7 +30,9 @@ const DisplayController = (function () {
       } */
     });
   };
-  const displayWin = function (curPlayer) {};
+  const displayWin = function (winner) {
+    console.log("THe winner is: " + winner);
+  };
   const displayDraw = function () {};
   const displayNewTurn = function (nextPlayer) {};
 
@@ -38,36 +40,41 @@ const DisplayController = (function () {
 })();
 
 const GameController = (function () {
+  let _boardIsActive = true;
+  let _winner = null;
+  let _curPlayer = Gameboard.player1; //I should look into _variables
+  const _board = Gameboard.gameboard;
+
   const determineFirst = function () {
-    let curPlayer = Gameboard.player1;
+    _curPlayer = Gameboard.player1;
   };
 
   document.addEventListener("click", function (e) {
     const _target = e.target;
-    const _curPlayer = curPlayer;
-    const _board = Gameboard.gameboard;
-    if (
-      _target.classList.contains("gameboard-square") &&
-      _target.textContent === ""
-    ) {
-      GameController.onTurn();
+
+    if (_target.classList.contains("gameboard-square") && _boardIsActive) {
+      GameController.onTurn(_target);
+    } else if (_target.classList.contains("btn-restart")) {
+      resetGame();
     }
   });
 
   const changeTurn = function () {
-    if (curPlayer === Gameboard.player1) {
-      curPlayer = Gameboard.player2;
-    } else if (curPlayer === Gameboard.player2) {
-      curPlayer = Gameboard.player1;
+    if (_curPlayer === Gameboard.player1) {
+      _curPlayer = Gameboard.player2;
+    } else if (_curPlayer === Gameboard.player2) {
+      _curPlayer = Gameboard.player1;
     } else {
       console.log("There is a problem at changeTurn!");
     }
   };
+
   const setSquareSymbol = function (board, curPlayer, target) {
     if (board[target.dataset.squareNumber] === undefined) {
       board[target.dataset.squareNumber] = curPlayer.symbol;
     }
   };
+
   const exchangeSymbol = function () {
     //some code
   };
@@ -79,7 +86,9 @@ const GameController = (function () {
       for (let j = i * 3; j < i * 3 + 3; j++) {
         _arr.push(_board[j]);
       }
-      if (_arr.every((el) => el === _arr[0])) {
+      if (_arr.every((el) => el === _arr[0] && el !== undefined)) {
+        _winner = _arr[0];
+
         return true;
       }
     }
@@ -92,10 +101,11 @@ const GameController = (function () {
       const _arr = [];
       // for (let j = i; j < i + 6; j + 3) {
       for (let j = i; j < i + 7; j += 3) {
+        _winner = _arr[0];
+
         _arr.push(_board[j]);
       }
-      console.log(_arr);
-      if (_arr.every((el) => el === _arr[0])) {
+      if (_arr.every((el) => el === _arr[0] && el !== undefined)) {
         return true;
       }
     }
@@ -108,7 +118,9 @@ const GameController = (function () {
     for (let i = 2; i < 7; i += 2) {
       _arr.push(_board[i]);
     }
-    if (_arr.every((el) => el === _arr[0])) {
+    if (_arr.every((el) => el === _arr[0] && el !== undefined)) {
+      _winner = _arr[0];
+
       return true;
     }
     return false;
@@ -120,7 +132,9 @@ const GameController = (function () {
     for (let i = 0; i < 9; i += 4) {
       _arr.push(_board[i]);
     }
-    if (_arr.every((el) => el === _arr[0])) {
+    if (_arr.every((el) => el === _arr[0] && el !== undefined)) {
+      _winner = _arr[0];
+
       return true;
     }
     return false;
@@ -139,19 +153,42 @@ const GameController = (function () {
     }
   };
 
-  const onTurn = function () {
-    setSquareSymbol(_board, _curPlayer, _target);
-    DisplayController.displaySymbols();
-    if (checkForWin()) {
-      DisplayController.displayWin();
-    } else {
-      GameController.changeTurn();
+  const checkForDraw = function (board) {
+    console.log(board);
+    if (!board.includes(undefined)) {
+      return true;
     }
+    return false;
+  };
+
+  const onTurn = function (target) {
+    const _target = target;
+    if (_target.textContent === "") {
+      setSquareSymbol(_board, _curPlayer, _target);
+      DisplayController.displaySymbols();
+      if (checkForWin(_board)) {
+        _boardIsActive = false;
+
+        DisplayController.displayWin(_winner);
+        console.log("Someone won!");
+      } else if (checkForDraw(_board)) {
+        _boardIsActive = false;
+        console.log("This is a draw!");
+        DisplayController.displayDraw();
+      } else {
+        GameController.changeTurn();
+      }
+    }
+  };
+
+  const resetGame = function () {
+    _board = new Array();
+    _boardIsActive = true;
   };
 
   return {
     changeTurn,
-    curPlayer,
+    onTurn,
     setSquareSymbol,
     exchangeSymbol,
     checkForWin,
@@ -161,19 +198,3 @@ const GameController = (function () {
     checkInverseDiagonal,
   };
 })();
-
-//before AI useless
-/* const shapeChoice = function () {
-  const choiceOButton = document.querySelector("choice-o-btn");
-  const choiceXButton = document.querySelector("choice-x-btn");
-
-  choiceOButton.addEventListener("click", function (e) {
-    selectShape();
-  });
-  choiceXButton.addEventListener("click", function (e) {});
-
-  const selectShape = function () {
-    //Choose if player 1 (X) or player 2 (O)
-  };
-}; */
-//DISABLED ATTRIBUTE FOR YOU WHEN PLAYING AI
