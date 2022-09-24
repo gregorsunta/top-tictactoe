@@ -8,21 +8,33 @@
   </head>
   <body>
     <div class="container">
-      <h1>Tic tac toe</h1>
-      <div class="choice-container hidden">
-        <button class="choice-x-btn"></button>
-        <button class="choice-o-btn"></button>
-      </div>
-      <div class="gameboard-container">
-        <div data-square-number="0" class="gameboard-square 0"></div>
-        <div data-square-number="1" class="gameboard-square 1"></div>
-        <div data-square-number="2" class="gameboard-square 2"></div>
-        <div data-square-number="3" class="gameboard-square 3"></div>
-        <div data-square-number="4" class="gameboard-square 4"></div>
-        <div data-square-number="5" class="gameboard-square 5"></div>
-        <div data-square-number="6" class="gameboard-square 6"></div>
-        <div data-square-number="7" class="gameboard-square 7"></div>
-        <div data-square-number="8" class="gameboard-square 8"></div>
+      <header>
+        <div class="logo">
+          <span class="highlight-font">Tic</span
+          ><span class="thicken-font">Tac</span
+          ><span class="highlight-font">Toe</span>
+        </div>
+        <div class="btns-container">
+          <button class="btn btn-restart">restart</button>
+          <button class="btn btn-toggle">toggle</button>
+        </div>
+      </header>
+      <div class="board-container">
+        <div class="choice-container hidden">
+          <button class="choice-x-btn"></button>
+          <button class="choice-o-btn"></button>
+        </div>
+        <div class="gameboard-container">
+          <div data-square-number="0" class="gameboard-square zero"></div>
+          <div data-square-number="1" class="gameboard-square one"></div>
+          <div data-square-number="2" class="gameboard-square two"></div>
+          <div data-square-number="3" class="gameboard-square three"></div>
+          <div data-square-number="4" class="gameboard-square four"></div>
+          <div data-square-number="5" class="gameboard-square five"></div>
+          <div data-square-number="6" class="gameboard-square six"></div>
+          <div data-square-number="7" class="gameboard-square seven"></div>
+          <div data-square-number="8" class="gameboard-square eight"></div>
+        </div>
       </div>
     </div>
   </body>

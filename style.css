@@ -1,19 +1,97 @@
-h1 {
-  color: blue;
+@font-face {
+  font-family: "notosans";
+  font-weight: 400;
+  src: url(./fonts/NotoSans/NotoSans-Regular.ttf);
+}
+@font-face {
+  font-family: "notosans";
+  font-weight: 200;
+  src: url(./fonts/NotoSans/NotoSans-Light.ttf);
+}
+@font-face {
+  font-family: "notosans";
+  font-weight: 900;
+  src: url(./fonts/NotoSans/NotoSans-Bold.ttf);
 }
 
-.container {
-  width: 100vw;
-  height: 100vh;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "notosans";
+  font-weight: 500;
+  color: #130f40;
+}
+body {
   display: flex;
   flex-direction: column;
-  /* justify-content: center; Tac To */
+  align-items: center;
+}
+.container {
+  width: 60vw;
+  /* height: 90vh; */
+  padding: 80px 50px;
+  margin: 50px;
+  /* border: 3px solid #686de0; */
+  border-radius: 50px;
+  box-shadow: 0px 5px 10px #95afc0;
+
+  display: flex;
+  gap: 100px;
+  flex-direction: column;
   align-items: center;
 }
 
+header {
+  width: 100%;
+  display: flex;
+
+  justify-content: space-between;
+  /* align-items: center; */
+}
+
+.logo {
+  display: inline;
+  font-size: 2.5rem;
+  /* border-radius: 5px; */
+  padding: 5px 10px;
+  background-color: #c7ecee;
+}
+
+.btns-container {
+}
+
+.btn {
+  color: #30336b;
+  font-size: 1.5rem;
+  background: none;
+  /* background-color: #7ed6df; */
+  border: none;
+  border-bottom: 1.5px solid #686de0;
+  padding: 0px 0px;
+  margin: 0 0px 0 25px;
+
+  /* border-radius: 50px; */
+}
+.btn:hover {
+  border-bottom: 3px solid #686de0;
+}
+.btn-restart {
+  color: #686de0;
+}
+.btn-restart:hover {
+  color: #4834d4;
+}
+.btn-toggle {
+  color: #95afc0;
+}
+.btn-toggle:hover {
+  color: #535c68;
+}
+
 .gameboard-container {
-  width: 200px;
-  height: 200px;
+  width: 300px;
+  height: 300px;
 
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -21,14 +99,48 @@ h1 {
 }
 
 .gameboard-square {
-  /* margin: 5px; */
-  border: 3px solid;
-
+  font-size: 4rem;
+  font-weight: 500;
+  color: #30336b;
+  border: 1.5px solid #686de0;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.gameboard-square .1 {
+
+.zero,
+.one,
+.two {
+  border-top: 0;
+}
+.zero,
+.three,
+.six {
+  border-left: 0;
+}
+
+.two,
+.five,
+.eight {
+  border-right: 0;
+}
+
+.six,
+.seven,
+.eight {
+  border-bottom: 0;
+}
+
+.highlight-font {
+  color: #686de0;
+  font-weight: bold;
+}
+.thicken-font {
+  font-weight: bold;
+}
+
+.highlight-back {
+  background-color: #686de0;
 }
 
 .hidden {
