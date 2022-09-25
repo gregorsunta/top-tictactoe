@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" href="style.css" />
     <script src="script.js" defer></script>
-    <title>Tic tac toe</title>
+    <title>TicTacToe</title>
   </head>
   <body>
     <div class="container">
@@ -20,10 +20,10 @@
         </div>
       </header>
       <div class="board-container">
-        <div class="choice-container hidden">
+        <!-- <div class="choice-container hidden">
           <button class="choice-x-btn"></button>
           <button class="choice-o-btn"></button>
-        </div>
+        </div> -->
         <div class="gameboard-container">
           <div data-square-number="0" class="gameboard-square zero"></div>
           <div data-square-number="1" class="gameboard-square one"></div>
@@ -35,6 +35,12 @@
           <div data-square-number="7" class="gameboard-square seven"></div>
           <div data-square-number="8" class="gameboard-square eight"></div>
         </div>
+      </div>
+      <div class="popup-container" hidden>
+        <div class="popup-background">
+          <div class="blur"></div>
+        </div>
+        <div class="popup">Win</div>
       </div>
     </div>
   </body>

@@ -14,20 +14,10 @@ const DisplayController = (function () {
   10;
   squareDiv.classList.add("gameboard-div");
 
-  const displaySymbols = function () {
-    Gameboard.gameboard.forEach((element, index) => {
-      if (element !== undefined) {
-        document.querySelectorAll(`[data-square-number]`)[index].textContent =
-          element;
-      }
-
-      /*       if (element === "x") {
-        document.querySelectorAll(`[data-square-number]`)[index].textContent =
-          "X";
-      } else if (element === "o") {
-        document.querySelectorAll(`[data-square-number]`)[index].textContent =
-          "O";
-      } */
+  const displaySymbols = function (board) {
+    board.forEach((element, index) => {
+      document.querySelectorAll(`[data-square-number]`)[index].textContent =
+        element;
     });
   };
   const displayWin = function (winner) {
@@ -43,7 +33,7 @@ const GameController = (function () {
   let _boardIsActive = true;
   let _winner = null;
   let _curPlayer = Gameboard.player1; //I should look into _variables
-  const _board = Gameboard.gameboard;
+  let _board = Gameboard.gameboard;
 
   const determineFirst = function () {
     _curPlayer = Gameboard.player1;
@@ -56,6 +46,10 @@ const GameController = (function () {
       GameController.onTurn(_target);
     } else if (_target.classList.contains("btn-restart")) {
       resetGame();
+      DisplayController.displaySymbols(_board);
+    } else if (_target.classList.contains("blur")) {
+      togglePopup();
+    } else {
     }
   });
 
@@ -154,36 +148,45 @@ const GameController = (function () {
   };
 
   const checkForDraw = function (board) {
-    console.log(board);
     if (!board.includes(undefined)) {
       return true;
     }
     return false;
   };
 
+  const resetGame = function () {
+    _board = new Array(9);
+    _boardIsActive = true;
+    const gameboard = document.querySelectorAll(`[data-square-number]`);
+    gameboard.forEach((element, index) => (element.textContent = ""));
+  };
+
+  const togglePopup = function (msg) {
+    const popupContainer = document.querySelector(".popup-container");
+    if (popupContainer.getAttribute("hidden") === "") {
+      popupContainer.removeAttribute("hidden");
+    } else {
+      popupContainer.setAttribute("hidden", "");
+    }
+  };
+
   const onTurn = function (target) {
     const _target = target;
     if (_target.textContent === "") {
       setSquareSymbol(_board, _curPlayer, _target);
-      DisplayController.displaySymbols();
+      DisplayController.displaySymbols(_board);
       if (checkForWin(_board)) {
         _boardIsActive = false;
-
+        togglePopup();
         DisplayController.displayWin(_winner);
-        console.log("Someone won!");
       } else if (checkForDraw(_board)) {
         _boardIsActive = false;
-        console.log("This is a draw!");
+        togglePopup();
         DisplayController.displayDraw();
       } else {
         GameController.changeTurn();
       }
     }
-  };
-
-  const resetGame = function () {
-    _board = new Array();
-    _boardIsActive = true;
   };
 
   return {

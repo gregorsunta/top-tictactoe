@@ -10,6 +10,12 @@
 }
 @font-face {
   font-family: "notosans";
+  font-weight: 700;
+  src: url(./fonts/NotoSans/NotoSans-SemiBold.ttf);
+}
+
+@font-face {
+  font-family: "notosans";
   font-weight: 900;
   src: url(./fonts/NotoSans/NotoSans-Bold.ttf);
 }
@@ -58,9 +64,10 @@ header {
   background-color: #c7ecee;
 }
 
-.btns-container {
-}
+/* .btns-container {
 
+}
+ */
 .btn {
   color: #30336b;
   font-size: 1.5rem;
@@ -81,17 +88,19 @@ header {
 }
 .btn-restart:hover {
   color: #4834d4;
+  font-weight: 700;
 }
 .btn-toggle {
   color: #95afc0;
 }
 .btn-toggle:hover {
   color: #535c68;
+  font-weight: 700;
 }
 
 .gameboard-container {
-  width: 300px;
-  height: 300px;
+  width: 400px;
+  height: 400px;
 
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -106,6 +115,34 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.popup {
+  width: 500px;
+  height: 300px;
+  background-color: #95afc0;
+  backdrop-filter: 10px;
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.popup-background {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 100vh;
+}
+
+.blur {
+  width: 100vw;
+  height: 100vh;
+  background: rgba(149, 175, 192, 0.2);
+  backdrop-filter: blur(3px);
 }
 
 .zero,
@@ -141,8 +178,4 @@ header {
 
 .highlight-back {
   background-color: #686de0;
-}
-
-.hidden {
-  display: none;
 }
