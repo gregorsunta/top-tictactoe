@@ -123,14 +123,14 @@ header {
   background-color: #95afc0;
   backdrop-filter: 10px;
 
-  position: absolute;
+  position: fixed;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
 }
 
 .popup-background {
-  position: absolute;
+  position: fixed;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);

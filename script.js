@@ -6,7 +6,8 @@ const Gameboard = (function () {
   const player2 = {
     symbol: "o",
   };
-  return { gameboard, player1, player2 };
+  const players = [player1, player2];
+  return { gameboard, player1, player2, players };
 })();
 
 const DisplayController = (function () {
@@ -14,44 +15,95 @@ const DisplayController = (function () {
   10;
   squareDiv.classList.add("gameboard-div");
 
+  const toggleBoard = function () {
+    if (
+      document.querySelector(".board-container").getAttribute("hidden") === ""
+    ) {
+      document.querySelector(".board-container").removeAttribute("hidden");
+    } else {
+      document.querySelector(".board-container").setAttribute("hidden", "");
+    }
+  };
+  const toggleNameInput = function () {
+    if (
+      document.querySelector(".nameinput-container").getAttribute("hidden") ===
+      ""
+    ) {
+      document.querySelector(".nameinput-container").removeAttribute("hidden");
+    } else {
+      document.querySelector(".nameinput-container").setAttribute("hidden", "");
+    }
+  };
+  const toggleGameButtons = function () {
+    if (
+      document.querySelector(".btns-container").getAttribute("hidden") === ""
+    ) {
+      document.querySelector(".btns-container").removeAttribute("hidden");
+    } else {
+      document.querySelector(".btns-container").setAttribute("hidden", "");
+    }
+  };
   const displaySymbols = function (board) {
     board.forEach((element, index) => {
       document.querySelectorAll(`[data-square-number]`)[index].textContent =
         element;
     });
   };
-  const displayWin = function (winner) {
-    console.log("THe winner is: " + winner);
+  const displayWinner = function (winner) {
+    Gameboard.players.forEach((el, index) => {
+      if (el.symbol === winner) {
+        document.querySelector(".popup").textContent =
+          Gameboard.players[index].name;
+      }
+    });
   };
   const displayDraw = function () {};
+
   const displayNewTurn = function (nextPlayer) {};
 
-  return { displaySymbols, displayDraw, displayWin, displayNewTurn };
+  return {
+    toggleBoard,
+    toggleNameInput,
+    toggleGameButtons,
+    displaySymbols,
+    displayDraw,
+    displayWin: displayWinner,
+    displayNewTurn,
+  };
 })();
 
 const GameController = (function () {
-  let _boardIsActive = true;
+  let boardIsActive = true;
   let _winner = null;
   let _curPlayer = Gameboard.player1; //I should look into _variables
   let _board = Gameboard.gameboard;
 
-  const determineFirst = function () {
-    _curPlayer = Gameboard.player1;
-  };
-
   document.addEventListener("click", function (e) {
     const _target = e.target;
-
-    if (_target.classList.contains("gameboard-square") && _boardIsActive) {
-      GameController.onTurn(_target);
+    e.preventDefault();
+    if (_target.classList.contains("gameboard-square") && boardIsActive) {
+      console.log("clicked");
+      onTurn(_target);
     } else if (_target.classList.contains("btn-restart")) {
       resetGame();
       DisplayController.displaySymbols(_board);
     } else if (_target.classList.contains("blur")) {
       togglePopup();
-    } else {
+    } else if (_target.classList.contains("player-getnames-btn")) {
+      getNames();
+      DisplayController.toggleNameInput();
+      DisplayController.toggleBoard();
+      DisplayController.toggleGameButtons();
     }
   });
+
+  const getNames = function () {
+    //I should get this looped - two or more elements with same class and do this thing automated
+    const playerOneName = document.querySelector("#player-one-name").value;
+    const playerTwoName = document.querySelector("#player-two-name").value;
+    Gameboard.player1.name = playerOneName;
+    Gameboard.player2.name = playerTwoName;
+  };
 
   const changeTurn = function () {
     if (_curPlayer === Gameboard.player1) {
@@ -156,9 +208,9 @@ const GameController = (function () {
 
   const resetGame = function () {
     _board = new Array(9);
-    _boardIsActive = true;
     const gameboard = document.querySelectorAll(`[data-square-number]`);
-    gameboard.forEach((element, index) => (element.textContent = ""));
+    gameboard.forEach((element) => (element.textContent = ""));
+    boardIsActive = true;
   };
 
   const togglePopup = function (msg) {
@@ -176,20 +228,21 @@ const GameController = (function () {
       setSquareSymbol(_board, _curPlayer, _target);
       DisplayController.displaySymbols(_board);
       if (checkForWin(_board)) {
-        _boardIsActive = false;
+        boardIsActive = false;
         togglePopup();
         DisplayController.displayWin(_winner);
       } else if (checkForDraw(_board)) {
-        _boardIsActive = false;
+        boardIsActive = false;
         togglePopup();
         DisplayController.displayDraw();
       } else {
-        GameController.changeTurn();
+        changeTurn();
       }
     }
   };
 
   return {
+    boardIsActive,
     changeTurn,
     onTurn,
     setSquareSymbol,
@@ -199,5 +252,6 @@ const GameController = (function () {
     checkVertical,
     checkDiagonal,
     checkInverseDiagonal,
+    togglePopup,
   };
 })();
