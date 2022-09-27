@@ -1,9 +1,11 @@
 const Gameboard = (function () {
   let gameboard = new Array(9);
   const player1 = {
+    name: "Player 1",
     symbol: "x",
   };
   const player2 = {
+    name: "Player 2",
     symbol: "o",
   };
   const players = [player1, player2];
@@ -25,13 +27,10 @@ const DisplayController = (function () {
     }
   };
   const toggleNameInput = function () {
-    if (
-      document.querySelector(".nameinput-container").getAttribute("hidden") ===
-      ""
-    ) {
-      document.querySelector(".nameinput-container").removeAttribute("hidden");
+    if (document.querySelector(".nameinput-container").hidden === true) {
+      document.querySelector(".nameinput-container").hidden = false;
     } else {
-      document.querySelector(".nameinput-container").setAttribute("hidden", "");
+      document.querySelector(".nameinput-container").hidden = true;
     }
   };
   const toggleGameButtons = function () {
@@ -99,10 +98,12 @@ const GameController = (function () {
 
   const getNames = function () {
     //I should get this looped - two or more elements with same class and do this thing automated
-    const playerOneName = document.querySelector("#player-one-name").value;
-    const playerTwoName = document.querySelector("#player-two-name").value;
-    Gameboard.player1.name = playerOneName;
-    Gameboard.player2.name = playerTwoName;
+    if (document.querySelector("#player-one-name").value) {
+      Gameboard.player1.name = document.querySelector("#player-one-name").value;
+    }
+    if (document.querySelector("#player-two-name").value) {
+      Gameboard.player2.name = document.querySelector("#player-two-name").value;
+    }
   };
 
   const changeTurn = function () {

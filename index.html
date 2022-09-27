@@ -20,23 +20,41 @@
         </div>
       </header>
       <div class="nameinput-container">
-        <form>
-          <label for="player-one-name">Player 1 name:</label>
-          <input
-            id="player-one-name"
-            type="text"
-            name="player-one-name"
-            required
-          />
-          <label for="player-two-name">Player 2 name:</label>
-          <input
-            id="player-two-name"
-            type="text"
-            name="player-two-name"
-            required
-          />
-          <button class="player-getnames-btn" type="submit">Ready!</button>
-        </form>
+        <div class="nameinput-all">
+          <section class="nameinput-title-container">
+            <h2>Write your names</h2>
+            <h4>or leave it empty</h4>
+          </section>
+
+          <form class="nameinput-form">
+            <section class="nameinput-playerinput">
+              <label class="nameinput-label" for="player-one-name"
+                >Player 1 name</label
+              >
+              <input
+                id="player-one-name"
+                class="nameinput-name"
+                type="text"
+                name="player-one-name"
+                required
+              />
+            </section>
+            <section class="nameinput-playerinput">
+              <label class="nameinput-label" for="player-two-name"
+                >Player 2 name</label
+              >
+              <input
+                id="player-two-name"
+                class="nameinput-name"
+                type="text"
+                name="player-two-name"
+                required
+              />
+            </section>
+
+            <button class="player-getnames-btn" type="submit">Ready!</button>
+          </form>
+        </div>
       </div>
       <div class="board-container" hidden>
         <!-- <div class="choice-container hidden">

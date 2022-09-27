@@ -26,13 +26,34 @@
   box-sizing: border-box;
   font-family: "notosans";
   font-weight: 500;
-  color: #130f40;
+  --main-color: #130f40; /*for general*/
+  --secondary-color: #535c68; /*for general dimmed*/
+  --tertiary-color: #95afc0; /*for general light*/
+  --background-color: #c7ecee; /*for light backgrounds*/
+  --shadow-color: #95afc0;
+  --highlight-color: #4834d4; /*for highlighting*/
+  --highlight-color-dimmed: #686de0; /*for highlighting dimmed*/
+  --border-radius-big: 50px;
+  --border-radius-regular: 50px;
+  --border-radius-small: 50px;
+  --box-shadow: 0px 1px 8px var(--shadow-color);
 }
 body {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
+h2 {
+  color: var(--tertiary-color);
+  text-transform: uppercase;
+  font-weight: 900;
+}
+
+h4 {
+  color: var(--tertiary-color);
+}
+
 .container {
   width: 60vw;
   /* height: 90vh; */
@@ -40,7 +61,7 @@ body {
   margin: 50px;
   /* border: 3px solid #686de0; */
   border-radius: 50px;
-  box-shadow: 0px 5px 10px #95afc0;
+  box-shadow: 0px 5px 10px var(--shadow-color);
 
   display: flex;
   gap: 100px;
@@ -61,7 +82,7 @@ header {
   font-size: 2.5rem;
   /* border-radius: 5px; */
   padding: 5px 10px;
-  background-color: #c7ecee;
+  background-color: var(--background-color);
 }
 
 /* .btns-container {
@@ -98,6 +119,56 @@ header {
   font-weight: 700;
 }
 
+.nameinput-title-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nameinput-all {
+  padding: 30px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  box-shadow: var(--box-shadow);
+}
+
+.nameinput-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.nameinput-playerinput {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  /* justify-content: center; */
+}
+
+.nameinput-label {
+  color: var(--highlight-color);
+}
+
+.nameinput-name {
+  color: var(---main-color);
+  font-weight: 700;
+  text-align: center;
+
+  height: 2rem;
+  border: 0;
+  border-radius: var(--border-radius-big);
+  box-shadow: var(--box-shadow);
+}
+
 .gameboard-container {
   width: 400px;
   height: 400px;
@@ -110,8 +181,8 @@ header {
 .gameboard-square {
   font-size: 4rem;
   font-weight: 500;
-  color: #30336b;
-  border: 1.5px solid #686de0;
+  color: var(--highlight-color);
+  border: 1.5px solid var(--highlight-color-dimmed);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -120,9 +191,10 @@ header {
 .popup {
   width: 500px;
   height: 300px;
-  background-color: #95afc0;
+  background-color: #ffffff;
   backdrop-filter: 10px;
 
+  border-radius: 20px;
   position: fixed;
   left: 50%;
   top: 50%;
